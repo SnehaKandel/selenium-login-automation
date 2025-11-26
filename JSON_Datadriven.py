@@ -1,0 +1,44 @@
+import json
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+# --------------------------
+# Read JSON file
+# --------------------------
+json_file = 'testdata.json'
+
+with open(json_file, 'r') as file:
+    test_data = json.load(file)
+
+print("Loaded Test Data:", test_data)
+
+
+# --------------------------
+# Run Test for Each JSON Entry
+# --------------------------
+for data in test_data:
+
+    print(f"\nRunning test for: {data}")
+
+    # Launch browser
+    driver = webdriver.Chrome()
+    driver.maximize_window()
+
+    # Open website
+    driver.get("https://www.saucedemo.com/")
+    time.sleep(2)
+
+    # Enter username
+    driver.find_element(By.ID, "user-name").send_keys(data["username"])
+
+    # Enter password
+    driver.find_element(By.ID, "password").send_keys(data["password"])
+
+    # Click login
+    driver.find_element(By.ID, "login-button").click()
+    time.sleep(3)
+
+    # Close browser
+    driver.quit()
+
